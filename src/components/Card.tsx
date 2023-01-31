@@ -6,8 +6,16 @@ import { getRandomInt } from "../utils/utils"
 type Props = {}
 
 function Card({}: Props) {
-  const [carrots, setCarrots] = useState(0)
+  const [carrots, setCarrots] = useState(() => {
+    const saved = localStorage.getItem("carrots")
+    const initialValue = JSON.parse(saved!)
+    return initialValue || 0
+  })
   const [rotation, setRotation] = useState(0)
+
+  useEffect(() => {
+    localStorage.setItem("carrots", carrots.toString())
+  }, [carrots])
 
   const handleClick = () => {
     setCarrots(carrots + 1)
